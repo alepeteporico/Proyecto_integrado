@@ -1,0 +1,36 @@
+version: '3'  
+services:
+
+  db:
+    #image: postgres
+    image: postgres:14.2
+    environment: 
+      POSTGRES_DB: keycloakdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./db:/var/lib/postgresql/data
+
+  keycloak:
+    #image: jboss/keycloak
+    image: jboss/keycloak:latest
+    environment:
+      DB_VENDOR: POSTGRES
+      DB_ADDR: db
+      DB_DATABASE: keycloakdb
+      DB_USER: postgres
+      DB_PASSWORD: admin
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+      #KEYCLOAK_LOGLEVEL: DEBUG
+      #ROOT_LOGLEVEL: DEBUG
+    ports:
+      - '8083:8080'
+    depends_on:
+      - db
+
+volumes:  
+  db:
+    driver: local
