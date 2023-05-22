@@ -24,12 +24,20 @@ services:
       DB_PASSWORD: admin
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: admin
-      #KEYCLOAK_LOGLEVEL: DEBUG
-      #ROOT_LOGLEVEL: DEBUG
+      KC_HTTPS_CERTIFICATE_FILE: /opt/keycloak/demo/certs/localhostcert.pem
+      KC_HTTPS_CERTIFICATE_KEY_FILE: /opt/keycloak/demo/certs/localhostkey.pem
+#      REGISTRY_AUTH_TOKEN_REALM: https://localhost:8843/auth/realms/Servicios/protocol/openid-connect/auth
+#      REGISTRY_AUTH_TOKEN_SERVICE: docker-test
+#      REGISTRY_AUTH_TOKEN_ISSUER: https://localhost:8843/realms/Servicios
+      KEYCLOAK_LOGLEVEL: DEBUG
+      ROOT_LOGLEVEL: DEBUG
     ports:
       - '8083:8080'
+      - '8843:8443'
     depends_on:
       - db
+    volumes:
+      - ./certs:/opt/keycloak/demo/certs
 
 volumes:  
   db:
