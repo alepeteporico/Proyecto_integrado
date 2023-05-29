@@ -34,11 +34,66 @@ services:
     ports:
       - '8083:8080'
       - '8843:8443'
+    command:
+      - "-b 0.0.0.0"
     depends_on:
       - db
     volumes:
       - ./certs:/opt/keycloak/demo/certs
+#    extra_hosts:
+#      - "host.docker.internal:host-gateway"
 
+#  db_w:
+#    image: mysql:5.7
+#    volumes:
+#      - db_w_data:/var/lib/mysql
+#    restart: always
+#    environment:
+#      MYSQL_ROOT_PASSWORD: somewordpress
+#      MYSQL_DATABASE: wordpress
+#      MYSQL_USER: wordpress
+#      MYSQL_PASSWORD: wordpress
+
+#  proxy:
+#    image: nginx
+#    ports:
+#      - 8085:80
+#      - 8543:443
+#    volumes:
+#      - ./proxy/conf/nginx.conf:/etc/nginx/nginx.conf
+#      - ./proxy/certs:/etc/nginx/certs
+#    depends_on:
+#      - wordpress
+
+#  wordpress:
+#    depends_on:
+#      - db_w
+#    image: wordpress:latest
+#    volumes:
+#      - wordpress_data:/var/www/html
+#    ports:
+#      - "8010:80"
+#    restart: always
+#    environment:
+#      WORDPRESS_DB_HOST: db_w:3306
+#      WORDPRESS_DB_USER: wordpress
+#      WORDPRESS_DB_PASSWORD: wordpress
+#      WORDPRESS_DB_NAME: wordpress
+#    extra_hosts:
+#      - "host.docker.internal:host-gateway"
+
+
+networks:
+  db:
+    driver: bridge
+#  db_w:       
+#    driver: bridge
+  keycloak:       
+    driver: bridge
+#  wordpress:       
+#    driver: bridge
 volumes:  
   db:
     driver: local
+#  db_w_data: {}
+#  wordpress_data: {}

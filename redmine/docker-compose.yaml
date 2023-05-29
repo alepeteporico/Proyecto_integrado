@@ -15,7 +15,8 @@ services:
       - REDMINE_SECRET_KEY_BASE=supersecretkey
     depends_on:
       - db      
-##    command: git -C plugins/ clone https://github.com/devopskube/redmine_openid_connect.git
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
   db:
     image: mariadb:latest
     restart: unless-stopped
